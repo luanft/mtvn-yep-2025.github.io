@@ -150,13 +150,30 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
             .title-script { font-size: 4rem; }
             .lantern-container { gap: 10px; }
         }
+
+        #fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Nằm dưới cùng */
+            pointer-events: none; /* Quan trọng: Click sẽ xuyên qua lớp này để chạm vào content */
+            background: transparent;
+        }
+        
+        /* Đảm bảo nội dung chính nằm trên pháo hoa */
+        .card-wrapper, .section-container {
+            position: relative;
+            z-index: 1; 
+        }
     </style>
 </head>
 <body>
 
+<div id="fireworks"></div>
 
-
-    <div id="fireworks" class="card-wrapper">
+    <div class="card-wrapper">
         <div class="tet-card">
             <header class="card-header">
                 <div class="corner top-left"></div>

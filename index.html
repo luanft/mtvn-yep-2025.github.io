@@ -424,7 +424,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                 item.classList.add('time-item');
                 
                 const imgUrl = `https://picsum.photos/seed/${year}/400/250`;
-                
+                let renderYear = year > 2014 ? year : '2013 - 2014';
                 item.innerHTML = `
                     <div class="time-content">
                         <h3>${year}</h3>

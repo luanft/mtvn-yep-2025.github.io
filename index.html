@@ -208,6 +208,33 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
             margin-bottom: 5px;
             display: block;
         }
+
+/* CSS cho Slide Show mini trong Timeline */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 180px; /* Tăng nhẹ chiều cao */
+    overflow: hidden;
+    border-radius: 8px;
+    margin: 10px 0;
+    border: 2px solid #eee;
+}
+
+.slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Hiệu ứng mờ dần */
+}
+
+.slide-img.active {
+    opacity: 1;
+}
+        
     </style>
 </head>
 <body>
@@ -418,26 +445,74 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
             }
         }, 1000);
 
-        // --- 2. TIMELINE GENERATOR (REVERSED: 2026 -> 2014) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const timeline = document.getElementById('timeline-app');
-            // Sửa vòng lặp: bắt đầu từ 2026, giảm dần về 2014
-            for (let year = 2026; year >= 2014; year--) {
-                const item = document.createElement('div');
-                item.classList.add('time-item');
+        // --- 2. TIMELINE GENERATOR (REVERSED: 2026 -> 2014) WITH SLIDESHOW ---
+document.addEventListener('DOMContentLoaded', () => {
+    const timeline = document.getElementById('timeline-app');
+    
+    for (let year = 2026; year >= 2014; year--) {
+        const item = document.createElement('div');
+        item.classList.add('time-item');
+        
+        let renderYear = year > 2014 ? year : '2013 - 2014';
+        
+        // Tạo 3 ảnh khác nhau cho mỗi năm để làm slide
+        const img1 = `https://picsum.photos/seed/${year}-1/400/250`;
+        const img2 = `https://picsum.photos/seed/${year}-2/400/250`;
+        const img3 = `https://picsum.photos/seed/${year}-3/400/250`;
+
+        item.innerHTML = `
+            <div class="time-content">
+                <h3>${renderYear}</h3>
+                <div class="slideshow-container" id="slideshow-${year}">
+                    <img src="${img1}" class="slide-img active">
+                    <img src="${img2}" class="slide-img">
+                    <img src="${img3}" class="slide-img">
+                </div>
+                <p>Kỷ niệm cột mốc đáng nhớ năm ${renderYear} của Microchip VN.</p>
+            </div>
+        `;
+        timeline.appendChild(item);
+
+        // Chạy hiệu ứng slideshow cho từng năm
+        startMiniSlideshow(`slideshow-${year}`);
+    }
+});
+
+// Hàm điều khiển slide cho từng cụm năm
+function startMiniSlideshow(containerId) {
+    let currentSlide = 0;
+    const container = document.getElementById(containerId);
+    const slides = container.querySelectorAll('.slide-img');
+    
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 3000 + Math.random() * 2000); // Thời gian chuyển ảnh ngẫu nhiên từ 3-5s để các năm không bị chuyển cùng lúc
+}
+
+        
+        
+        // // --- 2. TIMELINE GENERATOR (REVERSED: 2026 -> 2014) ---
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const timeline = document.getElementById('timeline-app');
+        //     // Sửa vòng lặp: bắt đầu từ 2026, giảm dần về 2014
+        //     for (let year = 2026; year >= 2014; year--) {
+        //         const item = document.createElement('div');
+        //         item.classList.add('time-item');
                 
-                const imgUrl = `https://picsum.photos/seed/${year}/400/250`;
-                let renderYear = year > 2014 ? year : '2013 - 2014';
-                item.innerHTML = `
-                    <div class="time-content">
-                        <h3>${renderYear }</h3>
-                        <img src="${imgUrl}" alt="${year}" class="time-img">
-                        <p>Kỷ niệm cột mốc đáng nhớ năm ${renderYear } của Microchip VN.</p>
-                    </div>
-                `;
-                timeline.appendChild(item);
-            }
-        });
+        //         const imgUrl = `https://picsum.photos/seed/${year}/400/250`;
+        //         let renderYear = year > 2014 ? year : '2013 - 2014';
+        //         item.innerHTML = `
+        //             <div class="time-content">
+        //                 <h3>${renderYear }</h3>
+        //                 <img src="${imgUrl}" alt="${year}" class="time-img">
+        //                 <p>Kỷ niệm cột mốc đáng nhớ năm ${renderYear } của Microchip VN.</p>
+        //             </div>
+        //         `;
+        //         timeline.appendChild(item);
+        //     }
+        // });
     </script>
 
 

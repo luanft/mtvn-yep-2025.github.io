@@ -138,6 +138,30 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
         .custom-list { list-style: none; background: #fff; padding: 20px; border-radius: 10px; border: 1px dashed var(--orange-tet); }
         .custom-list li { padding: 10px 0; border-bottom: 1px dotted #ccc; display: flex; justify-content: space-between; }
         .custom-list li span:first-child { font-weight: bold; color: var(--red-tet); }
+
+
+        /* --- Cập nhật lại CSS cho danh sách để phù hợp nội dung chi tiết --- */
+        .custom-list li {
+            padding: 15px 0; /* Tăng khoảng cách */
+            border-bottom: 1px dotted #ccc;
+            display: block; /* Đổi sang block để mô tả nằm dưới thời gian */
+            text-align: left;
+        }
+        .custom-list li .time-tag {
+            font-weight: bold;
+            color: var(--red-tet);
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .custom-list li .desc {
+            font-size: 0.9rem;
+            color: #666;
+            display: block;
+            line-height: 1.4;
+            margin-top: 5px;
+            font-style: italic;
+        }
         
         footer { background: var(--red-tet); color: #fff; text-align: center; padding: 20px; margin-top: 50px; }
 
@@ -290,15 +314,22 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                     <li><span>19:00</span> Game & Bốc thăm</li>
                 </ul>
             </div>
+
             <div class="list-box">
-                <h2 class="section-title" style="font-size: 2rem; border: none; margin-bottom: 20px;">Thực Đơn</h2>
+                <h2 class="section-title" style="font-size: 2rem; border: none; margin-bottom: 20px;">Lịch Trình</h2>
                 <ul class="custom-list">
-                    <li><span>Khai vị</span> Tam Hợp Như Ý</li>
-                    <li><span>Súp</span> Hải Sản Hoàng Kim</li>
-                    <li><span>Món chính</span> Tôm Càng Xanh Hấp</li>
-                    <li><span>Món chính</span> Bò Sốt Vang</li>
-                    <li><span>Lẩu</span> Nấm Linh Chi</li>
-                    <li><span>Tráng miệng</span> Chè Yến</li>
+                    <li>
+                        <span class="time-tag">17:00 – Check-in & Chụp ảnh</span>
+                        <span class="desc">👉 Mọi người cùng nhau lưu lại khoảnh khắc chung, một bức ảnh tập thể giản dị nhưng đầy ý nghĩa.</span>
+                    </li>
+                    <li>
+                        <span class="time-tag">17:30 – Khai mạc sự kiện</span>
+                        <span class="desc">👉 Không khí mở màn ấm cúng. Trong tiếng nhạc xuân vui tươi, mọi người vừa thưởng thức, vừa trò chuyện thân tình. 🎶✨</span>
+                    </li>
+                    <li>
+                        <span class="time-tag">18:00 – Enjoy Party</span>
+                        <span class="desc">👉 Tiệc trong không gian chill: ánh sáng dịu, nhạc du dương. Đây là lúc nâng ly và tận hưởng sự ấm áp. 🍷🌿</span>
+                    </li>
                 </ul>
             </div>
         </div>

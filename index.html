@@ -680,6 +680,18 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     const user = 'luanft';
     const repo = 'mtvn-yep-2025.github.io';
 
+function view_image(furl){
+    const hyperlink_obj = document.createElement("a");
+    document.body.appendChild(hyperlink_obj);
+    hyperlink_obj.setAttribute('style', "display: none");
+    hyperlink_obj.href = furl;
+    hyperlink_obj.target = '_blank';
+    hyperlink_obj.click();
+    setTimeout(()=>{
+        document.body.removeChild(hyperlink_obj);
+    }, 5000);
+}
+            
     // Hàm lấy danh sách ảnh từ GitHub API
     async function fetchImagesFromGithub(year) {
         try {
@@ -713,7 +725,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                 <h3>${renderYear}</h3>
                 <div class="slideshow-container" id="slideshow-${year}">
                     ${displayImages.map((src, index) => `
-                        <img src="${src}" class="slide-img ${index === 0 ? 'active' : ''}">
+                        <img src="${src}" onclick='view_image("${src}")' class="slide-img ${index === 0 ? 'active' : ''}">
                     `).join('')}
                     
                     ${displayImages.length > 1 ? `

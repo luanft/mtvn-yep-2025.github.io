@@ -641,65 +641,142 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
 
 
         // --- 2. TIMELINE GENERATOR WITH MANUAL & AUTO SLIDESHOW ---
-document.addEventListener('DOMContentLoaded', () => {
-    const timeline = document.getElementById('timeline-app');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const timeline = document.getElementById('timeline-app');
     
-    for (let year = 2026; year >= 2014; year--) {
+//     for (let year = 2026; year >= 2014; year--) {
+//         const item = document.createElement('div');
+//         item.classList.add('time-item');
+//         let renderYear = year > 2014 ? year : '2013 - 2014';
+        
+//         // Tạo link ảnh mẫu
+//         const imgs = [
+//             `https://picsum.photos/seed/${year}-1/400/250`,
+//             `https://picsum.photos/seed/${year}-2/400/250`,
+//             `https://picsum.photos/seed/${year}-3/400/250`
+//         ];
+
+//         item.innerHTML = `
+//             <div class="time-content">
+//                 <h3>${renderYear}</h3>
+//                 <div class="slideshow-container" id="slideshow-${year}">
+//                     <button class="slide-btn prev-btn" onclick="changeSlide('${year}', -1)"><i class="fas fa-chevron-left"></i></button>
+//                     ${imgs.map((src, index) => `<img src="${src}" class="slide-img ${index === 0 ? 'active' : ''}">`).join('')}
+//                     <button class="slide-btn next-btn" onclick="changeSlide('${year}', 1)"><i class="fas fa-chevron-right"></i></button>
+//                 </div>
+//                 <p>Cột mốc đáng nhớ năm ${renderYear}.</p>
+//             </div>
+//         `;
+//         timeline.appendChild(item);
+        
+//         // Tự động chạy
+//         startAutoSlide(year);
+//     }
+// });
+
+
+        document.addEventListener('DOMContentLoaded', async () => {
+    const timeline = document.getElementById('timeline-app');
+    const user = 'luanft';
+    const repo = 'mtvn-yep-2025.github.io';
+
+    // Hàm lấy danh sách ảnh từ GitHub API
+    async function fetchImagesFromGithub(year) {
+        try {
+            const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images/${year}`);
+            if (!response.ok) return []; // Nếu thư mục năm đó chưa có ảnh
+            const data = await response.json();
+            // Lọc ra các file là hình ảnh và lấy download_url
+            return data
+                .filter(file => file.name.match(/\.(jpe?g|png|gif|webp)$/i))
+                .map(file => file.download_url);
+        } catch (error) {
+            console.error(`Lỗi khi lấy ảnh năm ${year}:`, error);
+            return [];
+        }
+    }
+
+    // Duyệt qua từng năm để render
+    for (let year = 2025; year >= 2014; year--) {
         const item = document.createElement('div');
         item.classList.add('time-item');
         let renderYear = year > 2014 ? year : '2013 - 2014';
         
-        // Tạo link ảnh mẫu
-        const imgs = [
-            `https://picsum.photos/seed/${year}-1/400/250`,
-            `https://picsum.photos/seed/${year}-2/400/250`,
-            `https://picsum.photos/seed/${year}-3/400/250`
-        ];
+        // Gọi API lấy ảnh thật
+        const githubImages = await fetchImagesFromGithub(year);
+        
+        // Nếu không có ảnh trên GitHub, dùng tạm 1 ảnh placeholder để không bị trống
+        const displayImages = githubImages.length > 0 ? githubImages : [`https://picsum.photos/seed/${year}/400/250`];
 
         item.innerHTML = `
             <div class="time-content">
                 <h3>${renderYear}</h3>
                 <div class="slideshow-container" id="slideshow-${year}">
-                    <button class="slide-btn prev-btn" onclick="changeSlide('${year}', -1)"><i class="fas fa-chevron-left"></i></button>
-                    ${imgs.map((src, index) => `<img src="${src}" class="slide-img ${index === 0 ? 'active' : ''}">`).join('')}
-                    <button class="slide-btn next-btn" onclick="changeSlide('${year}', 1)"><i class="fas fa-chevron-right"></i></button>
+                    ${displayImages.map((src, index) => `
+                        <img src="${src}" class="slide-img ${index === 0 ? 'active' : ''}">
+                    `).join('')}
+                    
+                    ${displayImages.length > 1 ? `
+                        <button class="slide-btn prev-btn" onclick="changeSlide('${year}', -1)">❮</button>
+                        <button class="slide-btn next-btn" onclick="changeSlide('${year}', 1)">❯</button>
+                    ` : ''}
                 </div>
-                <p>Cột mốc đáng nhớ năm ${renderYear}.</p>
+                <p>Kỷ niệm cột mốc đáng nhớ năm ${renderYear} của Microchip VN.</p>
             </div>
         `;
         timeline.appendChild(item);
-        
-        // Tự động chạy
-        startAutoSlide(year);
+
+        // Nếu có nhiều hơn 1 ảnh thì mới chạy auto slideshow
+        if (displayImages.length > 1) {
+            startAutoSlide(year);
+        }
     }
 });
 
-// Đối tượng lưu trữ vị trí slide của từng năm
-let slideIndices = {};
-
+// Hàm điều khiển nút bấm
 function changeSlide(year, direction) {
     const container = document.getElementById(`slideshow-${year}`);
     const slides = container.querySelectorAll('.slide-img');
+    let activeIndex = Array.from(slides).findIndex(s => s.classList.contains('active'));
     
-    // Nếu năm này chưa có trong index thì khởi tạo
-    if (slideIndices[year] === undefined) slideIndices[year] = 0;
-    
-    // Ẩn ảnh hiện tại
-    slides[slideIndices[year]].classList.remove('active');
-    
-    // Tính toán index mới
-    slideIndices[year] = (slideIndices[year] + direction + slides.length) % slides.length;
-    
-    // Hiện ảnh mới
-    slides[slideIndices[year]].classList.add('active');
+    slides[activeIndex].classList.remove('active');
+    activeIndex = (activeIndex + direction + slides.length) % slides.length;
+    slides[activeIndex].classList.add('active');
 }
 
+// Hàm tự động chạy slide
 function startAutoSlide(year) {
     setInterval(() => {
-        // Chỉ tự động chuyển nếu người dùng không tương tác (giảm tỷ lệ trùng lặp)
         changeSlide(year, 1);
-    }, 4000 + Math.random() * 3000); 
+    }, 4000 + Math.random() * 2000); // Ngẫu nhiên 4-6s để tránh lag trình duyệt
 }
+
+// // Đối tượng lưu trữ vị trí slide của từng năm
+// let slideIndices = {};
+
+// function changeSlide(year, direction) {
+//     const container = document.getElementById(`slideshow-${year}`);
+//     const slides = container.querySelectorAll('.slide-img');
+    
+//     // Nếu năm này chưa có trong index thì khởi tạo
+//     if (slideIndices[year] === undefined) slideIndices[year] = 0;
+    
+//     // Ẩn ảnh hiện tại
+//     slides[slideIndices[year]].classList.remove('active');
+    
+//     // Tính toán index mới
+//     slideIndices[year] = (slideIndices[year] + direction + slides.length) % slides.length;
+    
+//     // Hiện ảnh mới
+//     slides[slideIndices[year]].classList.add('active');
+// }
+
+// function startAutoSlide(year) {
+//     setInterval(() => {
+//         // Chỉ tự động chuyển nếu người dùng không tương tác (giảm tỷ lệ trùng lặp)
+//         changeSlide(year, 1);
+//     }, 4000 + Math.random() * 3000); 
+// }
         
     </script>
 

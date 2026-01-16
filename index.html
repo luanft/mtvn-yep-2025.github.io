@@ -693,20 +693,47 @@ function view_image(furl){
 }
             
     // Hàm lấy danh sách ảnh từ GitHub API
-    async function fetchImagesFromGithub(year) {
-        try {
-            const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images/${year}`);
-            if (!response.ok) return []; // Nếu thư mục năm đó chưa có ảnh
-            const data = await response.json();
-            // Lọc ra các file là hình ảnh và lấy download_url
-            return data
-                .filter(file => file.name.match(/\.(jpe?g|png|gif|webp)$/i))
-                .map(file => file.download_url);
-        } catch (error) {
-            console.error(`Lỗi khi lấy ảnh năm ${year}:`, error);
-            return [];
-        }
+    // async function fetchImagesFromGithub(year) {
+    //     try {
+    //         const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images/${year}`);
+    //         if (!response.ok) return []; // Nếu thư mục năm đó chưa có ảnh
+    //         const data = await response.json();
+    //         // Lọc ra các file là hình ảnh và lấy download_url
+    //         return data
+    //             .filter(file => file.name.match(/\.(jpe?g|png|gif|webp)$/i))
+    //             .map(file => file.download_url);
+    //     } catch (error) {
+    //         console.error(`Lỗi khi lấy ảnh năm ${year}:`, error);
+    //         return [];
+    //     }
+    // }
+
+
+            
+
+async function fetchImagesFromGithub(year) {
+    const GITHUB_TOKEN = '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'; // Dán token của bạn vào đây
+
+    try {
+        const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images/${year}`, {
+            headers: {
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (!response.ok) return []; 
+        const data = await response.json();
+        
+        return data
+            .filter(file => file.name.match(/\.(jpe?g|png|gif|webp)$/i))
+            .map(file => file.download_url);
+    } catch (error) {
+        console.error(`Lỗi khi lấy ảnh năm ${year}:`, error);
+        return [];
     }
+}
+            
 
     // Duyệt qua từng năm để render
     for (let year = 2025; year >= 2014; year--) {

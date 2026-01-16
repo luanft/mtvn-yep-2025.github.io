@@ -301,7 +301,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     function playHiddenAudio() {
       const audio = document.getElementById("background-audio");
       audio.volume = 0.6; // 0.5 is 50% volume
-      audio.play().catch(error => {
+      return audio.play().catch(error => {
         console.log("Autoplay was prevented. Waiting for user interaction.");
       });
     }
@@ -316,11 +316,12 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     // window.addEventListener('click', playHiddenAudio, { once: true });
 
     const enableAudio = () => {
-        playHiddenAudio();
-        // Sau khi chạy xong thì gỡ bỏ các event khác để tránh lãng phí tài nguyên
-        window.removeEventListener('click', enableAudio);
-        window.removeEventListener('scroll', enableAudio);
-        window.removeEventListener('touchstart', enableAudio);
+        playHiddenAudio().then(function() {
+            // Sau khi chạy xong thì gỡ bỏ các event khác để tránh lãng phí tài nguyên
+            window.removeEventListener('click', enableAudio);
+            window.removeEventListener('scroll', enableAudio);
+            window.removeEventListener('touchstart', enableAudio);    
+        });
     };
     
     window.addEventListener('click', enableAudio);

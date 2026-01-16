@@ -291,10 +291,23 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     </style>
 </head>
 <body>
-<audio controls>
+<audio id="background-audio" loop>
   <source src="./vui_nhu_tet.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+
+<script>
+    // This function attempts to play the audio
+    function playHiddenAudio() {
+      const audio = document.getElementById("background-audio");
+      audio.play().catch(error => {
+        console.log("Autoplay was prevented. Waiting for user interaction.");
+      });
+    }
+    
+    // Trigger play on the first click anywhere on the page
+    window.addEventListener('click', playHiddenAudio, { once: true });
+</script>
 <div id="fireworks"></div>
 
     <div class="card-wrapper">

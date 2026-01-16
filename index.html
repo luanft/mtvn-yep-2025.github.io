@@ -546,6 +546,17 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     </footer>
 
     <script>
+        function view_image(furl){
+            const hyperlink_obj = document.createElement("a");
+            document.body.appendChild(hyperlink_obj);
+            hyperlink_obj.setAttribute('style', "display: none");
+            hyperlink_obj.href = furl;
+            hyperlink_obj.target = '_blank';
+            hyperlink_obj.click();
+            setTimeout(()=>{
+                document.body.removeChild(hyperlink_obj);
+            }, 5000);
+        }
         // --- 1. COUNTDOWN LOGIC ---
         const eventDate = new Date("Jan 30, 2026 17:00:00").getTime();
 
@@ -680,17 +691,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     const user = 'luanft';
     const repo = 'mtvn-yep-2025.github.io';
 
-function view_image(furl){
-    const hyperlink_obj = document.createElement("a");
-    document.body.appendChild(hyperlink_obj);
-    hyperlink_obj.setAttribute('style', "display: none");
-    hyperlink_obj.href = furl;
-    hyperlink_obj.target = '_blank';
-    hyperlink_obj.click();
-    setTimeout(()=>{
-        document.body.removeChild(hyperlink_obj);
-    }, 5000);
-}
+
             
     // Hàm lấy danh sách ảnh từ GitHub API
     // async function fetchImagesFromGithub(year) {
@@ -945,7 +946,27 @@ const allImages = {
     "20240125_170338.webp",
     "20240125_170407.webp",
     "20240125_203331.webp"
-  ]
+  ],
+"2025": [
+    "RAU8233-Crop4K.webp",
+    "RAU8214.webp",
+    "RAU8214-Crop4K.webp",
+    "RAU8215.webp",
+    "RAU8215-Crop4K.webp",
+    "RAU8216.webp",
+    "RAU8216-Crop4K.webp",
+    "RAU8217.webp",
+    "RAU8217-Crop4K.webp",
+    "RAU8218.webp",
+    "RAU8218-Crop4K.webp",
+    "RAU8222.webp",
+    "RAU8224.webp",
+    "RAU8226.webp",
+    "RAU8226-Crop4K.webp",
+    "RAU8232.webp",
+    "RAU8232-Crop2K.webp",
+    "RAU8233.webp"
+]
 };
             
 

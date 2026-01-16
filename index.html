@@ -306,7 +306,10 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     }
     
     // Trigger play on the first click anywhere on the page
-    window.addEventListener('click', playHiddenAudio, { once: true });
+
+    setTimeout(function() {
+        playHiddenAudio();
+    }, 1000);
 </script>
 <div id="fireworks"></div>
 

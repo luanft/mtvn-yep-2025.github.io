@@ -411,7 +411,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                 <p>Xuống tại <strong>Ga Bến Thành</strong></p>
                 
                 <div class="video-container" style="margin-top: 15px; position: relative">
-                    <div style="position: absolute; top: 10%; left: 0px; color: green">
+                    <div id="huong_dan_metro" style="position: absolute; top: 10%; left: 0px; color: green">
                         <h3>Lộ trình di chuyển</h3>
                         <div>
                             <p>Xuất phát: Ga Metro Khu Công Nghệ Cao (Q9, gần Đại học Quốc Gia TP.HCM).</p>
@@ -426,7 +426,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                         </div>
                         
                     </div>
-                    <video width="100%" height="auto" controls style="border-radius: 8px; border: 1px solid var(--orange-tet);">
+                    <video id="myVideo" width="100%" height="auto" controls style="border-radius: 8px; border: 1px solid var(--orange-tet);">
                         <source src="di_chuyen_metro.mp4" type="video/mp4">
                         Trình duyệt của bạn không hỗ trợ xem video.
                     </video>
@@ -434,6 +434,25 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                         <i class="fas fa-play-circle"></i> Xem clip hướng dẫn lối ra ga
                     </p>
                 </div>
+
+                <script>
+                    const video = document.getElementById('myVideo');
+                    const huongDan = document.getElementById('huong_dan_metro');
+                
+                    // Khi video bắt đầu chạy
+                    video.addEventListener('play', function() {
+                        huongDan.style.display = 'none';
+                    });
+                
+                    // Khi video tạm dừng (pause) hoặc kết thúc (ended)
+                    video.addEventListener('pause', function() {
+                        huongDan.style.display = 'block';
+                    });
+                
+                    video.addEventListener('ended', function() {
+                        huongDan.style.display = 'block';
+                    });
+                </script>
                 
                 <p>Đi bộ 5 phút đến khách sạn.</p>
             </div>

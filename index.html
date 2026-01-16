@@ -725,7 +725,7 @@ function view_image(furl){
                 <h3>${renderYear}</h3>
                 <div class="slideshow-container" id="slideshow-${year}">
                     ${displayImages.map((src, index) => `
-                        <img src="${src}" onclick='view_image("${src}")' class="slide-img ${index === 0 ? 'active' : ''}">
+                        <img loading="lazy" src="${src}" onclick='view_image("${src}")' class="slide-img ${index === 0 ? 'active' : ''}">
                     `).join('')}
                     
                     ${displayImages.length > 1 ? `

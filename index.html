@@ -300,6 +300,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     // This function attempts to play the audio
     function playHiddenAudio() {
       const audio = document.getElementById("background-audio");
+      audio.volume = 0.6; // 0.5 is 50% volume
       audio.play().catch(error => {
         console.log("Autoplay was prevented. Waiting for user interaction.");
       });

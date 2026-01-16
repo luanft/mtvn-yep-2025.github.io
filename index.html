@@ -314,6 +314,18 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     // }, 5000);
 
     // window.addEventListener('click', playHiddenAudio, { once: true });
+
+    const enableAudio = () => {
+        playHiddenAudio();
+        // Sau khi chạy xong thì gỡ bỏ các event khác để tránh lãng phí tài nguyên
+        window.removeEventListener('click', enableAudio);
+        window.removeEventListener('scroll', enableAudio);
+        window.removeEventListener('touchstart', enableAudio);
+    };
+    
+    window.addEventListener('click', enableAudio);
+    window.addEventListener('scroll', enableAudio);
+    window.addEventListener('touchstart', enableAudio); // Dành cho thiết bị di động
 </script>
 <div id="fireworks"></div>
 

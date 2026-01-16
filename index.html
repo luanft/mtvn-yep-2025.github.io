@@ -291,7 +291,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     </style>
 </head>
 <body>
-<audio autoplay id="background-audio" loop>
+<audio controls  autoplay id="background-audio" loop>
   <source src="./vui_nhu_tet.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -308,12 +308,12 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     
     // Trigger play on the first click anywhere on the page
 
-    setTimeout(function() {
-        // playHiddenAudio();
-        window?.document?.body?.click();
-    }, 5000);
+    // setTimeout(function() {
+    //     // playHiddenAudio();
+    //     window?.document?.body?.click();
+    // }, 5000);
 
-    window.addEventListener('click', playHiddenAudio, { once: true });
+    // window.addEventListener('click', playHiddenAudio, { once: true });
 </script>
 <div id="fireworks"></div>
 

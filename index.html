@@ -953,9 +953,12 @@ function fetchImagesFromGithub(year) {
     try {
       
         const data = allImages[year.toString()];
+        if (!data) {
+            return [];
+        }
         return data
             .filter(file => file.match(/\.(jpe?g|png|gif|webp)$/i))
-            .map(file => "https://raw.githubusercontent.com/luanft/mtvn-yep-2025.github.io/refs/heads/main/images/${year}/${file}");
+            .map(file => `https://raw.githubusercontent.com/luanft/mtvn-yep-2025.github.io/refs/heads/main/images/${year}/${file}`);
     } catch (error) {
         console.error(`Lỗi khi lấy ảnh năm ${year}:`, error);
         return [];

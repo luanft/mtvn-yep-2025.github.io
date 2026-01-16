@@ -438,7 +438,8 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
                 <script>
                     const video = document.getElementById('myVideo');
                     const huongDan = document.getElementById('huong_dan_metro');
-                
+
+                    video.playbackRate = 0.85;
                     // Khi video bắt đầu chạy
                     video.addEventListener('play', function() {
                         huongDan.style.display = 'none';

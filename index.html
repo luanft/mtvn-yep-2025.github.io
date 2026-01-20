@@ -964,9 +964,6 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
             // Nếu load được ảnh => Đang ở trong mạng nội bộ
             document.getElementById('content-yep').style.display = 'block';
             document.getElementById('loading-screen').style.display = 'none';
-            const audio = document.getElementById("background-audio");
-            audio.pause();           // Tạm dừng âm thanh
-            audio.currentTime = 0;   // Đưa thanh thời gian về giây thứ 0
         };
 
         img.onerror = function() {

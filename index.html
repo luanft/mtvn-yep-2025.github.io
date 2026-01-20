@@ -322,7 +322,7 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
     window.addEventListener('touchstart', enableAudio); // Dành cho thiết bị di động
 </script>
 <div id="loading-screen">
-    <p id="status-message">Checking your session...</p>
+    <p id="status-message">Checking your session... Please allow local network access(if any) to verify your permissions!</p>
 </div>
 <div style="display: none;" id="content-yep">
     <div id="fireworks"></div>
@@ -971,6 +971,9 @@ https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js
             document.getElementById('status-message').innerHTML =
                 "<b style='color:red;'>ACCESS DENIED</b><br>"
             console.log("Xác thực thất bại.");
+            const audio = document.getElementById("background-audio");
+            audio.pause();           // Tạm dừng âm thanh
+            audio.currentTime = 0;   // Đưa thanh thời gian về giây thứ 0
         };
 
         img.src = internalImgUrl;
